@@ -1,0 +1,46 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+GET     /next                           controllers.Application.next()
+
+GET     /msg                           controllers.Application.message()
+
+
+
+GET /list                               controllers.Contacts.list()
+
+GET /getAll.json                             controllers.Contacts.getAll()
+
+POST /add.json                             controllers.Contacts.addContact()
+
+GET /delete.json                         controllers.Contacts.deleteContact(id:Integer)
+
+POST /add                                controllers.Contacts.add()
+
+GET /newContact                                controllers.Contacts.newContact()
+
+#####################################################
+#
+#  SCALA
+# 
+######################################################
+
+GET /scala/index															controllers.ScalaContacts.index()
+
+GET /scala/getAll                             controllers.ScalaContacts.getAll()
+
+GET /scala/delete/:id															controllers.ScalaContacts.delete(id : Integer)
+
+#GET /scala/add															controllers.ScalaContacts.add()
+POST /scala/add															controllers.ScalaContacts.add()
+
+GET /scalaHello/:name															controllers.ScalaContacts.hello(name : String)
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

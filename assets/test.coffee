@@ -1,0 +1,2 @@
+$ ->
+    alert "Mmmmm... Coffee...."

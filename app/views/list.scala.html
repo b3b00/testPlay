@@ -1,0 +1,174 @@
+@(items: List[Contact])
+
+@main("Welcome to Play 2.1") {
+
+<script>
+    $(function() {
+    var name = $( "#name" ),
+    email = $( "#email" ),
+    password = $( "#password" ),
+    allFields = $( [] ).add( name ).add( email ).add( password ),
+    tips = $( ".validateTips" );
+
+    $( "#dialog-form" ).dialog({
+    autoOpen: false,
+    height: 300,
+    width: 350,
+    modal: true,
+    buttons: {
+    "Add a contact": function() {
+    addContact($("#contact-form").serialize());
+    allFields.removeClass( "ui-state-error" );
+    $( this ).dialog( "close" );
+    },
+    Cancel: function() {
+    $( this ).dialog( "close" );
+    }
+    },
+    close: function() {
+    allFields.val( "" ).removeClass( "ui-state-error" );
+    }
+    });
+
+    $( "#create-user" )
+    .button()
+    .click(function() {
+    $( "#dialog-form" ).dialog( "open" );
+    });
+
+
+    getAll();
+
+    });
+
+
+    function updateList(contacts) {
+    $("#contacts").empty();
+    $.each(contacts, function(index, item) {
+    tr = $("#contacts").append("<tr>");
+    tr.append($("<td>").text(item.firstName));
+        tr.append($("<td>").text(item.lastName));
+        tr.append($("<td>").text(item.phoneNumber));
+
+        delpng = "@{"/assets/images/del.png"}";
+        image = $("<img>");
+        image.attr("src",delpng);
+        image.attr("onmouseover","this.style.cursor='pointer'");
+        image.attr("onmouseout","this.style.cursor='default'");
+        cell =$("<td>");
+
+        cell.append(image);
+        cell.attr("onClick", "delContact("+item.id+");");
+        tr.append(cell);
+        });
+        }
+
+        function getAll() {
+        $("#contacts").empty();
+        $.ajax({
+        type: "GET",
+
+        url: "/getAll.json",
+
+        data: "",
+
+        beforeSend: function() {
+        $('#message').html();
+        },
+
+        success: function(data){
+        updateList(data);
+        },
+
+        complete: function() {
+
+        }
+
+        });
+        }
+
+        function addContact(serialForm) {
+        $("#contacts").empty();
+        $.ajax({
+        type: "POST",
+
+        url: "/add.json",
+
+        data: serialForm,
+
+        beforeSend: function() {
+        $('#message').html();
+        },
+
+        success: function(data){
+        updateList(data);
+        },
+
+        complete: function() {
+
+        }
+
+        });
+
+        }
+
+        function delContact(id) {
+        $("#contacts").empty();
+        $.ajax({
+        type: "GET",
+
+        url: "/delete.json?id="+id,
+
+        data: null,
+
+        beforeSend: function() {
+        $('#message').html();
+        },
+
+        success: function(data){
+        updateList(data);
+        },
+
+        complete: function() {
+
+        }
+
+        });
+
+        }
+
+
+</script>
+
+
+<div id="dialog-form" title="Create new user">
+    <p class="validateTips">All form fields are required.</p>
+
+    <form id="contact-form">
+        <fieldset>
+            <label for="name">First Name</label>
+            <input type="text" name="firstName" id="firstName" class="text ui-widget-content ui-corner-all" />
+            <label for="email">Last Name</label>
+            <input type="text" name="lastName" id="lastName" value="" class="text ui-widget-content ui-corner-all" />
+            <label for="password">Phone Number</label>
+            <input type="text" name="phoneNumber" id="phoneNumber" value="" class="text ui-widget-content ui-corner-all" />
+        </fieldset>
+    </form>
+</div>
+
+<table border="1" style="border-color:black; border-collapse:collapse; border-bottom:black 1px solid">
+    <thead><tr><td>first name</td><td>last name</td><td>phone number</td></tr></thead>
+    <tbody id="contacts">
+
+    </tbody>
+
+</table>                <br>
+        <br>
+
+
+<button id="create-user" onclick="$( '#dialog-form' ).dialog({ modal: true , show: 'slow', title: 'Dialog Title' });">Add a contact</button>
+<br>
+<a href=@routes.Application.index()>back</a>
+
+
+}

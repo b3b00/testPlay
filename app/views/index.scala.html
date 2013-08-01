@@ -1,0 +1,48 @@
+@(message : String, msg : String)
+
+
+@main("Welcome to Play 2.1") {
+    
+	<script>
+	function msg() {
+	
+	$.ajax({
+            type: "GET",
+            url: "@routes.Application.message()",
+            data: "",
+            beforeSend: function() {
+                $('#message').html();
+            },
+            success: function(a){
+                $('#time').html(a.msg);
+            },
+            complete: function() {
+                
+            }
+        });
+	}
+	</script>
+	
+    @*play20.welcome(message, style = "Java")*@
+	<h1>@message</h1>
+	<h2>@msg</h2>
+    <br>
+	<h3 >Current time is : <span id="time"></span></h3>
+	<br>
+	<a href="#"  onclick="msg(); return false;">click here to get current time</a>
+	<br>
+        <br>
+	<a href="@routes.Application.next()">NEXT</a>     <br>      <br>
+
+    <a href="@routes.Contacts.newContact()">add a new contact synchronously</a><br>
+    
+        <br><br>
+        <a href="@routes.Contacts.list()">JQUERY CONTACTS [JAVA]</a><br>
+
+<hr>
+<hr>
+
+     <a href="@routes.ScalaContacts.index()">JQUERY CONTACTS [SCALA]</a><br>
+     
+    
+}

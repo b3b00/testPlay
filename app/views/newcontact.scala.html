@@ -1,0 +1,22 @@
+@(contactForm: Form[Contact])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(myInputField.render) }
+
+<h1>newcontact.scala</h1>
+
+@main("Welcome to Play 2.1") {
+
+
+
+	@helper.form(action = routes.Contacts.add()) {
+        <table>
+@helper.inputText(contactForm("firstName"))
+@helper.inputText(contactForm("lastName"))
+@helper.inputText(contactForm("phoneNumber"))
+
+		<tr><td><input type="submit" value="Save"/>               </td></tr>
+        </table>
+	}
+}

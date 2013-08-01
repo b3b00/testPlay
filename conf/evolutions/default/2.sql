@@ -1,0 +1,1 @@
+insert into contact( last_name, first_name, phone_number) values('o','d','06');
